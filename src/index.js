@@ -36,12 +36,13 @@ function map(array, fn) {
  */
 function reduce(array, fn, initial) {
     let value = initial || array[0];
-    array.forEach(function (item, i, array) {
-        value = fn(value, item, i, array);
-    });
+    let index = initial ? 0 : 1;
+
+    for (let i = index; i < array.length; i++) {
+        value = fn(value, array[i], i, array);
+    }
     return value;
 }
-
 /*
  Задание 4:
 
