@@ -12,10 +12,15 @@
  Если вы создаете новые html-элементы и добавляете их на страницу, то дабавляйте их только в этот контейнер
 
  Пример:
-   const newDiv = document.createElement('div');
-   homeworkContainer.appendChild(newDiv);
+ const newDiv = document.createElement('div');
+ homeworkContainer.appendChild(newDiv);
  */
 const homeworkContainer = document.querySelector('#homework-container');
+
+const getRandomInt = m => Math.floor(Math.random() * Math.floor(m));
+
+const getRandomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
+
 
 /*
  Функция должна создавать и возвращать новый div с классом draggable-div и случайными размерами/цветом/позицией
@@ -23,26 +28,33 @@ const homeworkContainer = document.querySelector('#homework-container');
  Функция НЕ должна добавлять элемент на страницу. На страницу элемент добавляется отдельно
 
  Пример:
-   const newDiv = createDiv();
-   homeworkContainer.appendChild(newDiv);
+ const newDiv = createDiv();
+ homeworkContainer.appendChild(newDiv);
  */
 function createDiv() {
+    let result = document.createElement('div');
+
+    result.style.position = 'absolute';
+    result.style.width = getRandomInt(100);
+    result.style.height = getRandomInt(100);
+    result.style.top = getRandomInt(400);
+    result.style.left = getRandomInt(600);
 }
 
 /*
  Функция должна добавлять обработчики событий для перетаскивания элемента при помощи drag and drop
 
  Пример:
-   const newDiv = createDiv();
-   homeworkContainer.appendChild(newDiv);
-   addListeners(newDiv);
+ const newDiv = createDiv();
+ homeworkContainer.appendChild(newDiv);
+ addListeners(newDiv);
  */
 function addListeners(target) {
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
 
-addDivButton.addEventListener('click', function() {
+addDivButton.addEventListener('click', function () {
     // создать новый div
     const div = createDiv();
 
