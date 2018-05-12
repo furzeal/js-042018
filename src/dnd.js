@@ -17,11 +17,6 @@
  */
 const homeworkContainer = document.querySelector('#homework-container');
 
-const getRandomInt = m => Math.floor(Math.random() * Math.floor(m));
-
-const getRandomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-
 /*
  Функция должна создавать и возвращать новый div с классом draggable-div и случайными размерами/цветом/позицией
  Функция должна только создавать элемент и задвать ему случайные размер/позицию/цвет
@@ -31,14 +26,22 @@ const getRandomColor = () => '#' + Math.floor(Math.random() * 16777215).toString
  const newDiv = createDiv();
  homeworkContainer.appendChild(newDiv);
  */
+
+const getRandomInt = m => Math.floor(Math.random() * Math.floor(m));
+const getRandomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
+
 function createDiv() {
     let result = document.createElement('div');
 
+    result.classList.add('draggable-div');
     result.style.position = 'absolute';
-    result.style.width = getRandomInt(100);
-    result.style.height = getRandomInt(100);
-    result.style.top = getRandomInt(400);
-    result.style.left = getRandomInt(600);
+    result.style.width = getRandomInt(90) + 10 + 'px';
+    result.style.height = getRandomInt(90) + 10 + 'px';
+    result.style.top = getRandomInt(400) + 'px';
+    result.style.left = getRandomInt(600) + 'px';
+    result.style.backgroundColor = getRandomColor();
+
+    return result;
 }
 
 /*
@@ -50,18 +53,48 @@ function createDiv() {
  addListeners(newDiv);
  */
 function addListeners(target) {
+    const onMouseDown = e => {
+        let div = e.target;
+
+        div.shiftX = e.clientX - div.getBoundingClientRect().left;
+        div.shiftY = e.clientY - div.getBoundingClientRect().top;
+        document.focusedElement = div;
+
+    };
+    const onMouseUp = () => {
+        document.focusedElement = null;
+    };
+    const onMouseMove = e => {
+        if (document.focusedElement) {
+            let div = document.focusedElement;
+
+            div.style.left = e.clientX - div.shiftX + 'px';
+            div.style.top = e.clientY - div.shiftY + 'px';
+        }
+    };
+
+    target.addEventListener('mousedown', onMouseDown);
+    target.addEventListener('dragstart', () => false);
+    target.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
 
 addDivButton.addEventListener('click', function () {
-    // создать новый div
-    const div = createDiv();
 
-    // добавить на страницу
-    homeworkContainer.appendChild(div);
-    // назначить обработчики событий мыши для реализации D&D
-    addListeners(div);
+    for (let i=0; i<10;i++) {
+        // создать новый div
+        const div = createDiv();
+
+        // добавить на страницу
+        homeworkContainer.appendChild(div);
+
+        // назначить обработчики событий мыши для реализации D&D
+        addListeners(div);
+    }
+
     // можно не назначать обработчики событий каждому div в отдельности, а использовать делегирование
     // или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
 });
