@@ -84,16 +84,14 @@ let addDivButton = homeworkContainer.querySelector('#addDiv');
 
 addDivButton.addEventListener('click', function () {
 
-    for (let i=0; i<10;i++) {
-        // создать новый div
-        const div = createDiv();
+    // создать новый div
+    const div = createDiv();
 
-        // добавить на страницу
-        homeworkContainer.appendChild(div);
+    // добавить на страницу
+    homeworkContainer.appendChild(div);
 
-        // назначить обработчики событий мыши для реализации D&D
-        addListeners(div);
-    }
+    // назначить обработчики событий мыши для реализации D&D
+    addListeners(div);
 
     // можно не назначать обработчики событий каждому div в отдельности, а использовать делегирование
     // или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
