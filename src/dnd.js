@@ -74,7 +74,7 @@ function addListeners(target) {
     };
 
     target.addEventListener('mousedown', onMouseDown);
-    target.addEventListener('dragstart', () => false);
+    target.addEventListener('dragstart', e => e.preventDefault());
     target.addEventListener('mouseup', onMouseUp);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
