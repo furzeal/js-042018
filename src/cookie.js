@@ -56,7 +56,7 @@ const refreshCookie = () => {
 
     let filteredCookies = !chunk ?
         cookies :
-        cookies.filter(i => isMatching(i.name, chunk));
+        cookies.filter(i => isMatching(i.name, i.value, chunk));
     let fragment = document.createDocumentFragment();
 
     for (const item of filteredCookies) {
@@ -105,9 +105,10 @@ const createCookieRow = item => {
     return row;
 };
 
-const deleteCookie = name => document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-
-const isMatching = (full, chunk) => full.toLowerCase().indexOf(chunk.toLowerCase()) >= 0;
+const isMatching = (name, value, chunk) => {
+    return (name.toLowerCase().indexOf(chunk.toLowerCase()) >= 0) ||
+        (value.toLowerCase().indexOf(chunk.toLowerCase()) >= 0);
+};
 
 listTable.addEventListener('click', e => {
     if (e.target.tagName != 'BUTTON') {
@@ -136,6 +137,8 @@ addButton.addEventListener('click', () => {
     document.cookie = `${name}=${value}`;
     refreshCookie();
 
-    addNameInput.value = '';
-    addValueInput.value = '';
+    // addNameInput.value = '';
+    // addValueInput.value = '';
 });
+
+const deleteCookie = name => document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
